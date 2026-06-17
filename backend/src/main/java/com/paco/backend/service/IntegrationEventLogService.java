@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 /**
  * Servicio de auditoria. Registra en integration_event_log cada operacion
  * relevante realizada sobre los clientes (CREATE, UPDATE, DELETE,
- * STATUS_CHANGE), para dar trazabilidad a las integraciones.
+ * STATUS_CHANGE), para dar trazabilidad a las integraciones. 
  */
 @Service
 public class IntegrationEventLogService {

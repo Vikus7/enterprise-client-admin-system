@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * Repositorio para el acceso a datos de la auditoria de eventos.
+ * Repositorio para el acceso a datos de la auditoria de eventos. 
  */
 public interface IntegrationEventLogRepository extends JpaRepository<IntegrationEventLog, Long> {
 
