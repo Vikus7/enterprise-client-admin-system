@@ -31,9 +31,7 @@ public class CustomerService {
         this.eventLogService = eventLogService;
     }
 
-    
-    // Devuelve todos los clientes registrados.
-     * 
+    /** Devuelve todos los clientes registrados. */
     @Transactional(readOnly = true)
     public List<CustomerResponse> getAllCustomers() {
         return customerRepository.findAll().stream()
@@ -41,9 +39,7 @@ public class CustomerService {
                 .toList();
     }
 
-    
-    // Obtiene un cliente por su id o lanza una excepcion si no existe
-    
+    /** Obtiene un cliente por su id o lanza una excepcion si no existe. */
     @Transactional(readOnly = true)
     public CustomerResponse getCustomerById(Long id) {
         B4bCustomer customer = findCustomerOrThrow(id);
