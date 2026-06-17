@@ -53,6 +53,23 @@ docker compose down
 
 > **Nota:** los datos persisten entre reinicios gracias al volumen `paco_postgres_data`. Para eliminar también los datos usa `docker compose down -v`.
 
+### Si aparece error de certificados (PKIX / certificate_unknown)
+
+En algunos equipos corporativos, el build del backend puede fallar al descargar dependencias Maven por inspeccion SSL.
+
+1. Copia el certificado corporativo en `backend/certs/` (por ejemplo `backend/certs/corporate-ca.crt`).
+2. Vuelve a levantar:
+
+```bash
+docker compose up --build
+```
+
+Fallback temporal (solo desarrollo):
+
+```bash
+BACKEND_MAVEN_ARGS="-DskipTests package -Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true" docker compose up --build
+```
+
 ---
 
 ### Sin Docker (desarrollo local)

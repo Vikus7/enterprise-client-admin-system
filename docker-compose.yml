@@ -21,6 +21,8 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+      args:
+        MAVEN_ARGS: ${BACKEND_MAVEN_ARGS:--DskipTests package}
     container_name: paco-backend
     restart: unless-stopped
     environment:
