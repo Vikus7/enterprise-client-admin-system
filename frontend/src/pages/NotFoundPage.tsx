@@ -5,13 +5,13 @@ export function NotFoundPage() {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, alignItems: 'flex-start', py: 8 }}>
       <Typography variant="h2" component="h1">
-        Page not found
+        Pagina no encontrada
       </Typography>
       <Typography color="text.secondary">
-        The requested screen does not exist in this workspace.
+        La vista solicitada no existe dentro de esta aplicacion.
       </Typography>
       <Button component={Link} to="/clients" variant="contained">
-        Go to customers
+        Volver al listado
       </Button>
     </Box>
   )

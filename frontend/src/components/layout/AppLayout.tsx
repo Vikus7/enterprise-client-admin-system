@@ -1,14 +1,8 @@
 import { useState } from 'react'
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
-import {
-  AppBar,
-  Box,
-  Button,
-  Container,
-  Toolbar,
-  Typography,
-} from '@mui/material'
+import { AppBar, Box, Button, Container, Toolbar, Typography } from '@mui/material'
 import { useAuth } from '../../context/AuthContext.tsx'
+import viteLogo from '../../assets/vite.svg'
 
 export function AppLayout() {
   const { logout } = useAuth()
@@ -35,13 +29,16 @@ export function AppLayout() {
         }}
       >
         <Toolbar sx={{ justifyContent: 'space-between', gap: 2 }}>
-          <Box>
-            <Typography variant="h6" sx={{ fontWeight: 700 }}>
-              PA-CO Clients
-            </Typography>
-            <Typography variant="caption" color="text.secondary">
-              Minimal admin console for B4B/JDE customers
-            </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+            <Box component="img" src={viteLogo} alt="Logo de Vite" sx={{ width: 36, height: 36 }} />
+            <Box>
+              <Typography variant="subtitle1" sx={{ fontWeight: 700, lineHeight: 1.1 }}>
+                Administracion de Clientes empresariales
+              </Typography>
+              <Typography variant="caption" color="text.secondary">
+                Reto tecnico - PACO
+              </Typography>
+            </Box>
           </Box>
 
           <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
@@ -57,7 +54,7 @@ export function AppLayout() {
                 },
               }}
             >
-              List
+              Clientes
             </Button>
             <Button
               component={NavLink}
@@ -71,7 +68,7 @@ export function AppLayout() {
                 },
               }}
             >
-              Create
+              Nuevo cliente
             </Button>
             <Button
               variant="outlined"
@@ -79,7 +76,7 @@ export function AppLayout() {
               disabled={busy}
               sx={{ borderColor: 'rgba(16, 33, 45, 0.18)' }}
             >
-              Logout
+              Cerrar sesion
             </Button>
           </Box>
         </Toolbar>

@@ -27,13 +27,15 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import { customerService } from '../services/customerService.ts'
 import type { CustomerResponse } from '../types/customer.ts'
 
+type BadgeColor = 'success' | 'warning' | 'default'
+
 const currencyFormatter = new Intl.NumberFormat('es-EC', {
   style: 'currency',
   currency: 'USD',
   minimumFractionDigits: 2,
 })
 
-function statusColor(status: CustomerResponse['status']) {
+function statusColor(status: CustomerResponse['status']): BadgeColor {
   if (status === 'ACTIVE') {
     return 'success'
   }
@@ -54,6 +56,21 @@ function formatDate(value?: string | null) {
     dateStyle: 'medium',
     timeStyle: 'short',
   }).format(new Date(value))
+}
+
+function HeaderCell({ title, dbName }: { title: string; dbName: string }) {
+  return (
+    <TableCell>
+      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+        <Typography variant="subtitle2" sx={{ fontWeight: 700, lineHeight: 1.15 }}>
+          {title}
+        </Typography>
+        <Typography variant="caption" color="text.secondary">
+          {dbName}
+        </Typography>
+      </Box>
+    </TableCell>
+  )
 }
 
 export function CustomersListPage() {
@@ -94,7 +111,7 @@ export function CustomersListPage() {
 
   const handleDelete = async (customer: CustomerResponse) => {
     const confirmed = window.confirm(
-      `Disable ${customer.businessName}? This keeps the audit trail intact.`,
+      `Eliminar de forma logica a ${customer.businessName}? El registro quedara disponible para auditoria.`,
     )
 
     if (!confirmed) {
@@ -140,19 +157,19 @@ export function CustomersListPage() {
       >
         <Box>
           <Typography variant="h3" component="h1">
-            Customers
+            Clientes empresariales
           </Typography>
           <Typography color="text.secondary">
-            Structured view of the B4B/JDE client registry.
+            Vista estructurada del registro B4B/JDE.
           </Typography>
         </Box>
 
         <Box sx={{ display: 'flex', gap: 1.5 }}>
           <Button startIcon={<RefreshIcon />} onClick={handleRefresh} variant="outlined" disabled={refreshing}>
-            Refresh
+            Actualizar
           </Button>
           <Button startIcon={<AddIcon />} onClick={() => navigate('/clients/new')} variant="contained">
-            New customer
+            Nuevo cliente
           </Button>
         </Box>
       </Box>
@@ -160,7 +177,7 @@ export function CustomersListPage() {
       <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2 }}>
         <Paper sx={{ p: 2.5, flex: 1, border: '1px solid rgba(16, 33, 45, 0.08)' }}>
           <Typography variant="overline" color="text.secondary">
-            Total customers
+            Clientes totales
           </Typography>
           <Typography variant="h4" sx={{ fontWeight: 700 }}>
             {customers.length}
@@ -168,7 +185,7 @@ export function CustomersListPage() {
         </Paper>
         <Paper sx={{ p: 2.5, flex: 1, border: '1px solid rgba(16, 33, 45, 0.08)' }}>
           <Typography variant="overline" color="text.secondary">
-            Active records
+            Registros activos
           </Typography>
           <Typography variant="h4" sx={{ fontWeight: 700 }}>
             {activeCount}
@@ -179,25 +196,25 @@ export function CustomersListPage() {
       <Paper sx={{ p: 2.5, border: '1px solid rgba(16, 33, 45, 0.08)' }}>
         <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 2 }}>
           <TextField
-            label="Search customers"
-            placeholder="JDE, tax ID, business name..."
+            label="Buscar clientes"
+            placeholder="JDE, identificador, razon social..."
             value={searchTerm}
             onChange={(event) => setSearchTerm(event.target.value)}
             fullWidth
           />
 
           <FormControl sx={{ minWidth: { xs: '100%', md: 220 } }}>
-            <InputLabel id="status-filter-label">Status</InputLabel>
+            <InputLabel id="status-filter-label">Estado</InputLabel>
             <Select
               labelId="status-filter-label"
-              label="Status"
+              label="Estado"
               value={statusFilter}
               onChange={(event) => setStatusFilter(event.target.value as 'ALL' | CustomerResponse['status'])}
             >
-              <MenuItem value="ALL">All</MenuItem>
-              <MenuItem value="ACTIVE">ACTIVE</MenuItem>
-              <MenuItem value="INACTIVE">INACTIVE</MenuItem>
-              <MenuItem value="BLOCKED">BLOCKED</MenuItem>
+              <MenuItem value="ALL">Todos</MenuItem>
+              <MenuItem value="ACTIVE">Activo</MenuItem>
+              <MenuItem value="INACTIVE">Inactivo</MenuItem>
+              <MenuItem value="BLOCKED">Bloqueado</MenuItem>
             </Select>
           </FormControl>
 
@@ -209,7 +226,7 @@ export function CustomersListPage() {
             }}
             sx={{ minWidth: { xs: '100%', md: 160 } }}
           >
-            Clear filters
+            Limpiar filtros
           </Button>
         </Box>
       </Paper>
@@ -224,23 +241,32 @@ export function CustomersListPage() {
         ) : filteredCustomers.length === 0 ? (
           <Box sx={{ p: 4 }}>
             <Typography variant="h6" gutterBottom>
-              No matching customers
+              No hay clientes que coincidan
             </Typography>
             <Typography color="text.secondary">
-              Adjust the filters or create a new customer to populate the registry.
+              Ajusta los filtros o crea un nuevo cliente para poblar el registro.
             </Typography>
           </Box>
         ) : (
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>JDE</TableCell>
-                <TableCell>Business name</TableCell>
-                <TableCell>Tax ID</TableCell>
-                <TableCell>Status</TableCell>
-                <TableCell align="right">Credit limit</TableCell>
-                <TableCell>Updated</TableCell>
-                <TableCell align="right">Actions</TableCell>
+                <HeaderCell title="Codigo JDE" dbName="jde_code" />
+                <HeaderCell title="Razon social" dbName="business_name" />
+                <HeaderCell title="Identificador tributario" dbName="tax_id" />
+                <HeaderCell title="Estado" dbName="status" />
+                <HeaderCell title="Limite de credito" dbName="credit_limit" />
+                <HeaderCell title="Actualizado" dbName="updated_at" />
+                <TableCell align="right">
+                  <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+                    <Typography variant="subtitle2" sx={{ fontWeight: 700, lineHeight: 1.15 }}>
+                      Acciones
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      ui
+                    </Typography>
+                  </Box>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -251,15 +277,15 @@ export function CustomersListPage() {
                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.25 }}>
                       <Typography sx={{ fontWeight: 600 }}>{customer.businessName}</Typography>
                       <Typography variant="body2" color="text.secondary">
-                        {customer.commercialName || 'No commercial name'}
+                        {customer.commercialName || 'Sin nombre comercial'}
                       </Typography>
                     </Box>
                   </TableCell>
                   <TableCell>{customer.taxId}</TableCell>
                   <TableCell>
                     <Chip
-                      label={customer.status}
-                      color={statusColor(customer.status) as never}
+                      label={customer.status === 'ACTIVE' ? 'Activo' : customer.status === 'INACTIVE' ? 'Inactivo' : 'Bloqueado'}
+                      color={statusColor(customer.status)}
                       size="small"
                       variant={customer.status === 'INACTIVE' ? 'outlined' : 'filled'}
                     />
@@ -270,10 +296,10 @@ export function CustomersListPage() {
                   <TableCell>{formatDate(customer.updatedAt || customer.createdAt)}</TableCell>
                   <TableCell align="right">
                     <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 0.5 }}>
-                      <IconButton onClick={() => navigate(`/clients/${customer.id}/edit`)}>
+                      <IconButton onClick={() => navigate(`/clients/${customer.id}/edit`)} aria-label="Editar cliente">
                         <EditIcon fontSize="small" />
                       </IconButton>
-                      <IconButton onClick={() => handleDelete(customer)}>
+                      <IconButton onClick={() => handleDelete(customer)} aria-label="Desactivar cliente">
                         <DeleteIcon fontSize="small" />
                       </IconButton>
                     </Box>

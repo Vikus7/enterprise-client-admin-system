@@ -2,15 +2,24 @@ import { useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   Alert,
+  Avatar,
   Box,
   Button,
   Card,
   CardContent,
+  Chip,
+  Divider,
+  Stack,
   TextField,
   Typography,
 } from '@mui/material'
+import BusinessCenterOutlinedIcon from '@mui/icons-material/BusinessCenterOutlined'
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
+import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined'
+import PersonIcon from '@mui/icons-material/Person'
 import { useAuth } from '../context/AuthContext.tsx'
 import { getApiErrorMessage } from '../services/apiErrors.ts'
+import viteLogo from '../assets/vite.svg'
 
 export function LoginPage() {
   const navigate = useNavigate()
@@ -29,7 +38,7 @@ export function LoginPage() {
       await login(username, password)
       navigate('/clients', { replace: true })
     } catch (error) {
-      setError(getApiErrorMessage(error, 'No fue posible iniciar sesión. Verifica tus credenciales.'))
+      setError(getApiErrorMessage(error, 'No fue posible iniciar sesion. Verifica tus credenciales.'))
     } finally {
       setLoading(false)
     }
@@ -40,54 +49,54 @@ export function LoginPage() {
       sx={{
         minHeight: '100vh',
         p: { xs: 2, md: 4 },
-        display: 'flex',
-        flexDirection: { xs: 'column', md: 'row' },
+        display: 'grid',
+        gridTemplateColumns: { xs: '1fr', md: '1.1fr 0.9fr' },
         alignItems: 'center',
         gap: 4,
       }}
     >
-      <Box sx={{ flex: 1, maxWidth: 560 }}>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
-          <Typography variant="overline" color="primary" sx={{ letterSpacing: 2 }}>
-            PA-CO COMERCIAL E INDUSTRIAL
-          </Typography>
-          <Typography variant="h2" component="h1">
-            A minimal workspace for customer operations.
-          </Typography>
-          <Typography color="text.secondary">
-            Sign in to manage business customers, edit records, and keep the audit trail in sync with the backend.
-          </Typography>
+      <Box sx={{ maxWidth: 620 }}>
+        <Stack spacing={3}>
+          <Chip
+            icon={<Avatar src={viteLogo} alt="Vite" sx={{ width: 22, height: 22 }} />}
+            label="Reto tecnico - PACO"
+            color="primary"
+            variant="outlined"
+            sx={{ alignSelf: 'flex-start' }}
+          />
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+            <Box
+              sx={{
+                width: 56,
+                height: 56,
+                borderRadius: 4,
+                display: 'grid',
+                placeItems: 'center',
+                backgroundColor: 'rgba(15, 118, 110, 0.1)',
+                border: '1px solid rgba(15, 118, 110, 0.16)',
+              }}
+            >
+              <BusinessCenterOutlinedIcon color="primary" />
+            </Box>
+            <Box>
+              <Typography variant="h2" component="h1" sx={{ lineHeight: 1.05 }}>
+                Administracion de Clientes empresariales
+              </Typography>
+              <Typography color="text.secondary" sx={{ mt: 1 }}>
+                Acceso minimalista para administrar clientes empresariales con seguridad JWT y auditoria.
+              </Typography>
+            </Box>
+          </Box>
 
-              <Box sx={{ display: 'flex', gap: 2 }}>
-            <Box>
-              <Typography variant="h5" sx={{ fontWeight: 700 }}>
-                JWT
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Stateless access
-              </Typography>
-            </Box>
-            <Box>
-              <Typography variant="h5" sx={{ fontWeight: 700 }}>
-                CRUD
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                List, create and edit
-              </Typography>
-            </Box>
-            <Box>
-              <Typography variant="h5" sx={{ fontWeight: 700 }}>
-                Audit
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Operations logged
-              </Typography>
-            </Box>
-              </Box>
-        </Box>
+          <Box sx={{ display: 'flex', gap: 1.5, flexWrap: 'wrap' }}>
+            <Chip icon={<LockOutlinedIcon />} label="Acceso seguro" />
+            <Chip icon={<BusinessCenterOutlinedIcon />} label="Clientes empresariales" />
+            <Chip icon={<LoginOutlinedIcon />} label="Flujo rapido" />
+          </Box>
+        </Stack>
       </Box>
 
-      <Box sx={{ flex: 1, width: '100%', maxWidth: 560 }}>
+      <Box sx={{ width: '100%', maxWidth: 520, justifySelf: 'center' }}>
         <Card
           elevation={0}
           sx={{
@@ -96,40 +105,44 @@ export function LoginPage() {
           }}
         >
           <CardContent sx={{ p: { xs: 3, md: 4 } }}>
-                <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 3 }} onSubmit={handleSubmit}>
+            <Stack component="form" spacing={3} onSubmit={handleSubmit}>
               <Box>
-                <Typography variant="h4" component="h2" gutterBottom>
-                  Sign in
+                <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 700 }}>
+                  Iniciar sesion
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Use the credentials seeded by the backend.
+                  Usa las credenciales semilla creadas en el backend.
                 </Typography>
               </Box>
 
               {error ? <Alert severity="error">{error}</Alert> : null}
 
               <TextField
-                label="Username"
+                label="Usuario"
                 value={username}
                 onChange={(event) => setUsername(event.target.value)}
                 fullWidth
                 autoComplete="username"
                 required
+                slotProps={{ input: { startAdornment: <PersonIcon fontSize="small" /> } }}
               />
               <TextField
-                label="Password"
+                label="Contrasena"
                 type="password"
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
                 fullWidth
                 autoComplete="current-password"
                 required
+                slotProps={{ input: { startAdornment: <LockOutlinedIcon fontSize="small" /> } }}
               />
 
-              <Button type="submit" variant="contained" size="large" disabled={loading}>
-                {loading ? 'Signing in...' : 'Enter dashboard'}
+              <Divider />
+
+              <Button type="submit" variant="contained" size="large" disabled={loading} startIcon={<LoginOutlinedIcon />}>
+                {loading ? 'Ingresando...' : 'Entrar al sistema'}
               </Button>
-                </Box>
+            </Stack>
           </CardContent>
         </Card>
       </Box>
