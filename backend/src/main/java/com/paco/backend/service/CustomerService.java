@@ -31,9 +31,9 @@ public class CustomerService {
         this.eventLogService = eventLogService;
     }
 
-    /**
-     * Devuelve todos los clientes registrados.
-     */
+    
+    // Devuelve todos los clientes registrados.
+     * 
     @Transactional(readOnly = true)
     public List<CustomerResponse> getAllCustomers() {
         return customerRepository.findAll().stream()
@@ -41,9 +41,9 @@ public class CustomerService {
                 .toList();
     }
 
-    /**
-     * Obtiene un cliente por su id o lanza una excepcion si no existe.
-     */
+    
+    // Obtiene un cliente por su id o lanza una excepcion si no existe
+    
     @Transactional(readOnly = true)
     public CustomerResponse getCustomerById(Long id) {
         B4bCustomer customer = findCustomerOrThrow(id);
@@ -119,9 +119,8 @@ public class CustomerService {
         return toResponse(saved);
     }
 
-    // ---------------------------------------------------------------
-    // Metodos auxiliares
-    // ---------------------------------------------------------------
+
+    // METODOS AUXILIARES
 
     private B4bCustomer findCustomerOrThrow(Long id) {
         return customerRepository.findById(id)
@@ -160,7 +159,7 @@ public class CustomerService {
         customer.setCreditLimit(request.getCreditLimit());
     }
 
-    // Convierte la entidad en el DTO de salida
+    // Convierte la entidad en el DTO de salida.
     private CustomerResponse toResponse(B4bCustomer customer) {
         CustomerResponse response = new CustomerResponse();
         response.setId(customer.getId());

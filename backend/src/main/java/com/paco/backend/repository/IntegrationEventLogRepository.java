@@ -9,6 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface IntegrationEventLogRepository extends JpaRepository<IntegrationEventLog, Long> {
 
-    // Recupera los eventos asociados a un cliente especifico
+    // Recupera los eventos asociados a un cliente especifico 
     List<IntegrationEventLog> findByCustomerId(Long customerId);
 }

@@ -43,7 +43,7 @@ public class AuthService {
             throw new InvalidCredentialsException("Usuario o contrasena incorrectos");
         }
 
-        // Compara la contrasena enviada contra el hash BCrypt almacenado
+        // Compara la contrasena enviada contra el hash BCrypt almacenado.
         if (!passwordEncoder.matches(request.getPassword(), user.getPasswordHash())) {
             throw new InvalidCredentialsException("Usuario o contrasena incorrectos");
         }
