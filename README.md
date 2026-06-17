@@ -1,8 +1,18 @@
-# Reto Técnico – Administración de Clientes Empresariales
+<div align="center">
 
-Solución completa de un sistema de administración de clientes B2B desarrollado como respuesta al reto técnico de PA-CO Comercial e Industrial.
+# 🏢 Administración de Clientes Empresariales
 
-**By Victor Rodriguez** · victtor.rodriguez01@gmail.com · +593 983552078
+### Reto Técnico — PA-CO Comercial e Industrial
+
+Solución full-stack para gestión de clientes B2B con API REST, autenticación JWT y frontend React.
+
+---
+
+| 👤 Autor | Victor Rodriguez |
+|---|---|
+| 📧 Email | victtor.rodriguez01@gmail.com |
+
+</div>
 
 ---
 
@@ -102,7 +112,6 @@ Esquema JSON disponible en: http://localhost:8080/v3/api-docs
 ### Frontend
 
 - **React 19 + TypeScript + Vite 8** — SPA con tipado estático. Vite permite HMR rápido en desarrollo y bundles optimizados para producción.
-- **Material UI v9** — Librería de componentes para una UI funcional, consistente y responsive sin necesidad de CSS personalizado.
 - **React Router v7** — Enrutamiento en cliente con rutas protegidas que validan la presencia del token JWT antes de renderizar.
 - **Axios** — Cliente HTTP con interceptor de request que adjunta automáticamente el Bearer Token almacenado en `localStorage`.
 - **Nginx** — En el contenedor Docker, el build estático de Vite es servido por Nginx con regla `try_files` para soportar el enrutamiento SPA.
