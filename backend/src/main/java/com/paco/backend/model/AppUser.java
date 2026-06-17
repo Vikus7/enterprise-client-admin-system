@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
  * Entidad que representa a un usuario del sistema para la autenticacion.
  * Se mapea contra la tabla app_user.
  */
+
 @Entity
 @Table(name = "app_user")
 @Data
@@ -44,10 +45,8 @@ public class AppUser {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    /**
-     * Asigna la fecha de creacion antes de insertar el registro,
-     * en caso de que no venga establecida.
-     */
+
+    // Asigna la fecha de creacion antes de insertar el registro, en caso de que no venga establecida
     @jakarta.persistence.PrePersist
     public void prePersist() {
         if (createdAt == null) {

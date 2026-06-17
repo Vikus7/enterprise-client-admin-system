@@ -65,9 +65,9 @@ public class B4bCustomer {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
-    /**
-     * Inicializa fechas y estado por defecto antes de insertar.
-     */
+    
+    // Inicializa fechas y estado por defecto antes de insertar.
+     * 
     @PrePersist
     public void prePersist() {
         LocalDateTime now = LocalDateTime.now();
@@ -80,9 +80,8 @@ public class B4bCustomer {
         }
     }
 
-    /**
-     * Actualiza la fecha de modificacion automaticamente en cada cambio.
-     */
+    // Actualiza la fecha de modificacion automaticamente en cada cambio.
+    
     @PreUpdate
     public void preUpdate() {
         updatedAt = LocalDateTime.now();
