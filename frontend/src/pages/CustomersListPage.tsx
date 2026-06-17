@@ -308,12 +308,12 @@ export function CustomersListPage() {
           <Table sx={{ '& th, & td': { textAlign: 'center', verticalAlign: 'middle' } }}>
             <TableHead>
               <TableRow>
-                <HeaderCell title="Codigo JDE" hint="Referencia Cliente" />
-                <HeaderCell title="Razon social" hint="Empresa Principal" />
-                <HeaderCell title="Identificador tributario" hint="Documento Fiscal" />
-                <HeaderCell title="Estado" hint="Estado Operativo" />
-                <HeaderCell title="Limite de credito" hint="Cupo Aprobado" />
-                <HeaderCell title="Actualizado" hint="Ultima Gestion" />
+                <HeaderCell title="Codigo JDE" hint="JDE" />
+                <HeaderCell title="Razon social" hint="Business Name" />
+                <HeaderCell title="Identificador tributario" hint="Tax Id" />
+                <HeaderCell title="Estado" hint="Status" />
+                <HeaderCell title="Limite de credito" hint="Credit Limit" />
+                <HeaderCell title="Actualizado" hint="Updated" />
                 <TableCell align="center">
                   <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <Typography variant="subtitle2" sx={{ fontWeight: 700, lineHeight: 1.15 }}>
