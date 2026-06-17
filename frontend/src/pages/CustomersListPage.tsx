@@ -1,18 +1,23 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   Alert,
   Box,
   Button,
+  FormControl,
   Chip,
   CircularProgress,
   IconButton,
+  InputLabel,
   Paper,
+  MenuItem,
+  Select,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
+  TextField,
   Typography,
 } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
@@ -57,6 +62,8 @@ export function CustomersListPage() {
   const [loading, setLoading] = useState(true)
   const [refreshing, setRefreshing] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [searchTerm, setSearchTerm] = useState('')
+  const [statusFilter, setStatusFilter] = useState<'ALL' | CustomerResponse['status']>('ALL')
 
   const loadCustomers = async () => {
     setError(null)
@@ -103,6 +110,22 @@ export function CustomersListPage() {
   }
 
   const activeCount = customers.filter((customer) => customer.status === 'ACTIVE').length
+  const filteredCustomers = useMemo(() => {
+    const normalizedSearchTerm = searchTerm.trim().toLowerCase()
+
+    return customers.filter((customer) => {
+      const matchesSearch =
+        normalizedSearchTerm.length === 0 ||
+        [customer.jdeCode, customer.taxId, customer.businessName, customer.commercialName ?? '']
+          .join(' ')
+          .toLowerCase()
+          .includes(normalizedSearchTerm)
+
+      const matchesStatus = statusFilter === 'ALL' || customer.status === statusFilter
+
+      return matchesSearch && matchesStatus
+    })
+  }, [customers, searchTerm, statusFilter])
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
@@ -153,6 +176,44 @@ export function CustomersListPage() {
         </Paper>
       </Box>
 
+      <Paper sx={{ p: 2.5, border: '1px solid rgba(16, 33, 45, 0.08)' }}>
+        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 2 }}>
+          <TextField
+            label="Search customers"
+            placeholder="JDE, tax ID, business name..."
+            value={searchTerm}
+            onChange={(event) => setSearchTerm(event.target.value)}
+            fullWidth
+          />
+
+          <FormControl sx={{ minWidth: { xs: '100%', md: 220 } }}>
+            <InputLabel id="status-filter-label">Status</InputLabel>
+            <Select
+              labelId="status-filter-label"
+              label="Status"
+              value={statusFilter}
+              onChange={(event) => setStatusFilter(event.target.value as 'ALL' | CustomerResponse['status'])}
+            >
+              <MenuItem value="ALL">All</MenuItem>
+              <MenuItem value="ACTIVE">ACTIVE</MenuItem>
+              <MenuItem value="INACTIVE">INACTIVE</MenuItem>
+              <MenuItem value="BLOCKED">BLOCKED</MenuItem>
+            </Select>
+          </FormControl>
+
+          <Button
+            variant="outlined"
+            onClick={() => {
+              setSearchTerm('')
+              setStatusFilter('ALL')
+            }}
+            sx={{ minWidth: { xs: '100%', md: 160 } }}
+          >
+            Clear filters
+          </Button>
+        </Box>
+      </Paper>
+
       {error ? <Alert severity="error">{error}</Alert> : null}
 
       <Paper elevation={0} sx={{ overflow: 'hidden', border: '1px solid rgba(16, 33, 45, 0.08)' }}>
@@ -160,13 +221,13 @@ export function CustomersListPage() {
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', py: 10 }}>
             <CircularProgress />
           </Box>
-        ) : customers.length === 0 ? (
+        ) : filteredCustomers.length === 0 ? (
           <Box sx={{ p: 4 }}>
             <Typography variant="h6" gutterBottom>
-              No customers yet
+              No matching customers
             </Typography>
             <Typography color="text.secondary">
-              Create the first customer to populate the registry.
+              Adjust the filters or create a new customer to populate the registry.
             </Typography>
           </Box>
         ) : (
@@ -183,7 +244,7 @@ export function CustomersListPage() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {customers.map((customer) => (
+              {filteredCustomers.map((customer) => (
                 <TableRow key={customer.id} hover>
                   <TableCell>{customer.jdeCode}</TableCell>
                   <TableCell>
