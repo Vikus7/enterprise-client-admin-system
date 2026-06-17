@@ -53,6 +53,13 @@ docker compose down
 
 > **Nota:** los datos persisten entre reinicios gracias al volumen `paco_postgres_data`. Para eliminar también los datos usa `docker compose down -v`.
 
+### Si aparece error al obtener imagenes
+> **Observacion (Linux / Mac):** si Docker presenta errores de permisos o acceso al daemon, prueba ejecutar con privilegios:
+>
+> ```bash
+> sudo docker compose up --build
+> ```
+
 ### Si aparece error de certificados (PKIX / certificate_unknown)
 
 En algunos equipos corporativos, el build del backend puede fallar al descargar dependencias Maven por inspeccion SSL.
@@ -64,8 +71,15 @@ En algunos equipos corporativos, el build del backend puede fallar al descargar 
 docker compose up --build
 ```
 
-Fallback temporal (solo desarrollo):
+Fallback temporal sin certificado (solo desarrollo):
 
+**PowerShell:**
+```powershell
+$env:BACKEND_MAVEN_ARGS="-DskipTests package -Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true"
+docker compose up --build
+```
+
+**Linux / Mac:**
 ```bash
 BACKEND_MAVEN_ARGS="-DskipTests package -Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true" docker compose up --build
 ```
