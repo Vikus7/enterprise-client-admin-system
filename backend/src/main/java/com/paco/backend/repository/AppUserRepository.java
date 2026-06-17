@@ -9,6 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface AppUserRepository extends JpaRepository<AppUser, Long> {
 
-    // Busca un usuario por su nombre de login (campo unico)
+    // Busca un usuario por su nombre de login (campo unico) 
     Optional<AppUser> findByUsername(String username);
 }

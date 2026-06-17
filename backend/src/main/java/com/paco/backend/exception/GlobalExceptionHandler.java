@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
  * Manejador global de errores. Centraliza la conversion de excepciones
- * en respuestas HTTP coherentes usando el DTO ErrorResponse.
+ * en respuestas HTTP coherentes usando el DTO ErrorRespons
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler {

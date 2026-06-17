@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Controlador de autenticacion. Expone el unico endpoint publico de la API.
- */
+
+//Controlador de autenticacion. Expone el unico endpoint publico de la API
+ 
 @RestController
 @RequestMapping("/api/auth")
 @Tag(name = "Autenticacion", description = "Inicio de sesion y emision de tokens JWT")

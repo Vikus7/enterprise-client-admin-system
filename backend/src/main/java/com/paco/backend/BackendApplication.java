@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.security.autoconfigure.UserDetailsServiceAutoConfiguration;
 
 // Se excluye UserDetailsServiceAutoConfiguration porque la autenticacion
-// se maneja con JWT propio y no se usa el usuario en memoria por defecto.
+// se maneja con JWT propio y no se usa el usuario en memoria por defecto
 @SpringBootApplication(exclude = UserDetailsServiceAutoConfiguration.class)
 public class BackendApplication {
 
