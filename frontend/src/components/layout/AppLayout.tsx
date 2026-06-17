@@ -23,7 +23,7 @@ export function AppLayout() {
         elevation={0}
         sx={{
           borderBottom: '1px solid rgba(16, 33, 45, 0.08)',
-          backgroundColor: 'rgba(246, 242, 234, 0.92)',
+          backgroundColor: 'rgba(236, 231, 223, 0.95)',
           backdropFilter: 'blur(18px)',
           color: 'text.primary',
         }}
@@ -45,7 +45,7 @@ export function AppLayout() {
             </Box>
             <Box>
               <Typography variant="subtitle1" sx={{ fontWeight: 700, lineHeight: 1 }}>
-                PACO
+                Clientes Empresariales
               </Typography>
               <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.7rem' }}>
                 Clients admin
@@ -94,19 +94,26 @@ export function AppLayout() {
         </Toolbar>
       </AppBar>
 
-      <Container maxWidth="lg" sx={{ py: 4, flex: 1 }}>
+      <Container
+        maxWidth={false}
+        sx={{
+          py: { xs: 2, md: 3 },
+          px: { xs: 1.5, sm: 2, md: 3, lg: 4 },
+          flex: 1,
+        }}
+      >
         <Outlet />
       </Container>
 
       <Box
         sx={{
           borderTop: '1px solid rgba(16, 33, 45, 0.08)',
-          backgroundColor: 'rgba(246, 242, 234, 0.5)',
+          backgroundColor: 'rgba(236, 231, 223, 0.62)',
           py: 3,
           mt: 'auto',
         }}
       >
-        <Container maxWidth="lg">
+        <Container maxWidth={false} sx={{ px: { xs: 1.5, sm: 2, md: 3, lg: 4 } }}>
           <Box
             sx={{
               display: 'flex',

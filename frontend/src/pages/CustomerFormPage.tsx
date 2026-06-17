@@ -42,7 +42,7 @@ export function CustomerFormPage({ mode }: { mode: 'create' | 'edit' }) {
   const [error, setError] = useState<string | null>(null)
   const [fieldErrors, setFieldErrors] = useState<FormFieldErrors>({})
 
-  const title = useMemo(() => (isEditing ? 'Edit customer' : 'Create customer'), [isEditing])
+  const title = useMemo(() => (isEditing ? 'Editar cliente' : 'Crear cliente'), [isEditing])
 
   useEffect(() => {
     if (!isEditing || Number.isNaN(customerId)) {
@@ -109,7 +109,7 @@ export function CustomerFormPage({ mode }: { mode: 'create' | 'edit' }) {
 
       if (response?.fieldErrors) {
         applyServerFieldErrors(response.fieldErrors)
-        setError(response.message ?? 'Validation failed')
+        setError(response.message ?? 'La validacion del formulario fallo')
       } else {
         setError(getApiErrorMessage(exception, 'No fue posible guardar el cliente.'))
       }
@@ -133,7 +133,7 @@ export function CustomerFormPage({ mode }: { mode: 'create' | 'edit' }) {
           {title}
         </Typography>
         <Typography color="text.secondary">
-          Keep the record aligned with the backend validation rules.
+          Completa los campos para mantener consistencia con las reglas de validacion del backend.
         </Typography>
       </Box>
 
@@ -144,7 +144,7 @@ export function CustomerFormPage({ mode }: { mode: 'create' | 'edit' }) {
           <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 3 }} onSubmit={handleSubmit}>
             <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 2 }}>
               <TextField
-                label="JDE code"
+                label="Codigo JDE"
                 value={values.jdeCode}
                 onChange={(event) => updateField('jdeCode', event.target.value)}
                 fullWidth
@@ -153,7 +153,7 @@ export function CustomerFormPage({ mode }: { mode: 'create' | 'edit' }) {
                 helperText={fieldErrors.jdeCode}
               />
               <TextField
-                label="Tax ID"
+                label="Identificador tributario"
                 value={values.taxId}
                 onChange={(event) => updateField('taxId', event.target.value)}
                 fullWidth
@@ -164,7 +164,7 @@ export function CustomerFormPage({ mode }: { mode: 'create' | 'edit' }) {
             </Box>
 
             <TextField
-              label="Business name"
+              label="Razon social"
               value={values.businessName}
               onChange={(event) => updateField('businessName', event.target.value)}
               fullWidth
@@ -174,7 +174,7 @@ export function CustomerFormPage({ mode }: { mode: 'create' | 'edit' }) {
             />
 
             <TextField
-              label="Commercial name"
+              label="Nombre comercial"
               value={values.commercialName}
               onChange={(event) => updateField('commercialName', event.target.value)}
               fullWidth
@@ -184,7 +184,7 @@ export function CustomerFormPage({ mode }: { mode: 'create' | 'edit' }) {
 
             <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 2 }}>
               <TextField
-                label="Email"
+                label="Correo electronico"
                 type="email"
                 value={values.email}
                 onChange={(event) => updateField('email', event.target.value)}
@@ -193,7 +193,7 @@ export function CustomerFormPage({ mode }: { mode: 'create' | 'edit' }) {
                 helperText={fieldErrors.email}
               />
               <TextField
-                label="Phone"
+                label="Telefono"
                 value={values.phone}
                 onChange={(event) => updateField('phone', event.target.value)}
                 fullWidth
@@ -204,20 +204,20 @@ export function CustomerFormPage({ mode }: { mode: 'create' | 'edit' }) {
 
             <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 2 }}>
               <FormControl fullWidth>
-                <InputLabel id="customer-status-label">Status</InputLabel>
+                <InputLabel id="customer-status-label">Estado</InputLabel>
                 <Select
                   labelId="customer-status-label"
-                  label="Status"
+                  label="Estado"
                   value={values.status}
                   onChange={(event) => updateField('status', event.target.value as CustomerStatus)}
                 >
-                  <MenuItem value="ACTIVE">ACTIVE</MenuItem>
-                  <MenuItem value="INACTIVE">INACTIVE</MenuItem>
-                  <MenuItem value="BLOCKED">BLOCKED</MenuItem>
+                  <MenuItem value="ACTIVE">Activo</MenuItem>
+                  <MenuItem value="INACTIVE">Inactivo</MenuItem>
+                  <MenuItem value="BLOCKED">Bloqueado</MenuItem>
                 </Select>
               </FormControl>
               <TextField
-                label="Credit limit"
+                label="Limite de credito"
                 type="number"
                 value={values.creditLimit}
                 onChange={(event) => updateField('creditLimit', event.target.value)}
@@ -230,10 +230,10 @@ export function CustomerFormPage({ mode }: { mode: 'create' | 'edit' }) {
 
             <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1.5 }}>
               <Button variant="outlined" onClick={() => navigate('/clients')}>
-                Cancel
+                Cancelar
               </Button>
               <Button type="submit" variant="contained" disabled={saving}>
-                {saving ? 'Saving...' : 'Save customer'}
+                {saving ? 'Guardando...' : 'Guardar cliente'}
               </Button>
             </Box>
           </Box>

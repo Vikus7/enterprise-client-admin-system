@@ -11,6 +11,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
+import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined'
 import PersonIcon from '@mui/icons-material/Person'
@@ -58,6 +59,20 @@ export function LoginPage() {
         <Typography variant="h5" component="h2" sx={{ fontWeight: 600, color: 'text.secondary', mb: 1 }}>
           Administracion de Clientes Empresariales
         </Typography>
+        <Box
+          sx={{
+            width: 84,
+            height: 84,
+            margin: '18px auto 0',
+            borderRadius: '50%',
+            display: 'grid',
+            placeItems: 'center',
+            backgroundColor: 'rgba(15, 118, 110, 0.12)',
+            border: '2px solid rgba(15, 118, 110, 0.2)',
+          }}
+        >
+          <DashboardCustomizeIcon sx={{ color: 'primary.main', fontSize: 46 }} />
+        </Box>
       </Box>
 
       <Box sx={{ width: '100%', maxWidth: 420, flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
